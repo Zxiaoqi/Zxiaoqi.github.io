@@ -22,7 +22,7 @@
 <p>你可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。</p>
 <h3 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h3><p>场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令<code>git checkout -- file</code>。</p>
 <p>场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令<code>git reset HEAD &lt;file&gt;</code>，就回到了场景1，第二步按场景1操作。</p>
-<p>场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考<a href="https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192" target="_blank" rel="noopener">版本回退</a>一节，不过前提是没有推送到远程库。</p>
+<p>场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考廖雪峰大神<a href="https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192" target="_blank" rel="noopener">版本回退</a>一节，不过前提是没有推送到远程库。</p>
 <h3 id="删除修改"><a href="#删除修改" class="headerlink" title="删除修改"></a>删除修改</h3><p> 小提示：先手动删除文件，然后使用git rm <file>和git add<file>效果是一样的。</p>
 <p>另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：</p>
 <figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout <span class="comment">-- test.txt</span></span><br></pre></td></tr></table></figure>
@@ -33,7 +33,6 @@
 <p><strong>要关联一个远程库，使用命令<code>git remote add origin git@server-name:path/repo-name.git</code>；</strong></p>
 <p><strong>关联后，使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容；</strong></p>
 <p><strong>此后，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</strong></p>
-<p>分布式版本系统的最大好处之一是在本地工作完全不需要考虑远程库的存在，也就是有没有联网都可以正常工作，而SVN在没有联网的时候是拒绝干活的！当有网络的时候，再把本地提交推送一下就完成了同步，真是太方便了！</p>
 <p>要克隆一个仓库，首先必须知道仓库的地址，然后使用<code>git clone</code>命令克隆。</p>
 <p>Git支持多种协议，包括<code>https</code>，但通过<code>ssh</code>支持的原生<code>git</code>协议速度最快。</p>
 <p>Git鼓励大量使用分支：</p>
@@ -46,7 +45,6 @@
 <p>当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。</p>
 <p>解决冲突就是把Git合并失败的文件手动编辑为我们希望的内容，再提交。</p>
 <p><strong>用<code>git log --graph</code>命令可以看到分支合并图</strong></p>
-<p>Git分支十分强大，在团队开发中应该充分应用。</p>
 <p>合并分支时，加上<code>--no-ff</code>参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而<code>fast forward</code>合并就看不出来曾经做过合并。</p>
 <h3 id="switch-切换分支"><a href="#switch-切换分支" class="headerlink" title="switch 切换分支"></a>switch 切换分支</h3><p>我们注意到切换分支使用<code>git checkout &lt;branch&gt;</code>，而前面讲过的撤销修改则是<code>git checkout -- &lt;file&gt;</code>，同一个命令，有两种作用，确实有点令人迷惑。</p>
 <p>实际上，切换分支这个动作，<strong>用<code>switch</code>更科学</strong>。因此，最新版本的Git提供了新的<code>git switch</code>命令来切换分支：</p>
@@ -87,8 +85,6 @@
 <h3 id="修改远程仓库连接"><a href="#修改远程仓库连接" class="headerlink" title="修改远程仓库连接"></a>修改远程仓库连接</h3><h5 id="1、直接修改远程仓库地址"><a href="#1、直接修改远程仓库地址" class="headerlink" title="1、直接修改远程仓库地址"></a>1、直接修改远程仓库地址</h5><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">git </span><span class="string">remote </span><span class="built_in">set-url</span> <span class="string">origin </span><span class="string">url</span></span><br><span class="line"><span class="string">1</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="2、删除本地远程仓库地址，然后添加新的仓库地址"><a href="#2、删除本地远程仓库地址，然后添加新的仓库地址" class="headerlink" title="2、删除本地远程仓库地址，然后添加新的仓库地址"></a>2、删除本地远程仓库地址，然后添加新的仓库地址</h5><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote rm <span class="keyword">origin</span></span><br><span class="line"><span class="keyword">git </span>remote <span class="keyword">add </span><span class="keyword">origin </span>url</span><br></pre></td></tr></table></figure>
-
-<p><img src="D:%5CheimaWeb%5Cgit%5Cgit%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.jpg" alt="git思维导图"></p>
 </div><div class="tags"><a href="/tags/git/"><i class="fa fa-tag"></i>git</a></div><div class="post-nav"><a class="next" href="/Notes/quill-editor%E4%B8%8A%E4%BC%A0%E9%85%8D%E7%BD%AE/">quill-editor上传配置</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
     this.page.url = 'http://Zxiaoqi.com/Notes/git必要不常用指令/';
     this.page.identifier = 'Notes/git必要不常用指令/';
